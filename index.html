@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,25 +8,77 @@
 
     <title>Rick and Morty Universe</title>
 </head>
-<body class="bg-[#050505]">
-    <main>
 
-        <header>
-            logo
-            título
-            descrição
+<body class="bg-zinc-950 text-zinc-100 font-sans">
+    <main class="text-white w-full flex flex-col gap-3">
+        <!--MENU section-->
+        <header class="w-full flex items-center gap-5 h-min-5 bg-zinc-950 p-3 rounded-lg border border-zinc-800">
+            <div>
+                <img class="w-16" src="./scr/portal-logo.png" alt="">
+            </div>
+
+            <div class="w-full flex items-center justify-between">
+                <div>
+                    <h1 class="font-bold text-xl">RICK AND MORTY</h1>
+                    <p class="text-green-400 text-sm">EXPLORER</p>
+                </div>
+                <div class="text-4xl">
+                    &#9776;
+                </div>
+            </div>
         </header>
 
-        <section>
-            search
+        <!--HEADER section-->
+        <section class="w-full flex flex-col text-sm bg-zinc-950 p-3 rounded-lg gap-3 border border-zinc-800">
+            <div>
+                <p class="text-zinc-400">Explore the multiverse and discover characters.</p>
+            </div>
+
+            <!--SEARCH section-->
+            <div class="flex gap-4 items-center border border-zinc-800 rounded-full px-3 py-2 bg-zinc-900">
+                <span class="text-lg">&#128269;</span>
+                <input class="w-full outline-none bg-transparent" type="text" placeholder="Search character..." id="search-bar">
+            </div>
+
+            <!--FILTER section-->
+            <div class="flex gap-3 items-center self-center">
+                <button class="bg-green-300/20 border border-green-400 px-4 py-1 rounded-xl">All</button>
+                <button class="border border-zinc-800 px-4 py-1 rounded-xl">Alive</button>
+                <button class="border border-zinc-800 px-4 py-1 rounded-xl">Dead</button>
+                <button class="border border-zinc-800 px-4 py-1 rounded-xl">Unknown</button>
+            </div>
         </section>
 
-        <section>
-            characters
+        <section class="w-full grid grid-cols-2 text-sm bg-zinc-950 p-3 rounded-lg gap-3 border border-zinc-800"
+            id="characters">
+
+            <div class="card flex flex-col justify-between border border-zinc-800 rounded-xl p-3 gap-3 shadow-2xl">
+                <div class="rounded-xl bg-zinc-900/40">
+                    <img class="w-40" src="./scr/rick.png" alt="">
+                </div>
+                <div class="flex flex-col gap-1">
+                    <p class="character-name">Rick Sanchez</p>
+                    <p class="character-status text-green-400">&#9679; Alive</p>
+                    <p class="character-species text-zinc-400">Human</p>
+                </div>
+            </div>
+
+            <div class="card flex flex-col justify-between border border-zinc-800 rounded-xl p-3 gap-3 shadow-2xl">
+                <div class="rounded-xl bg-zinc-900/40">
+                    <img class="w-40" src="./scr/Morty smith.png" alt="">
+                </div>
+                <div class="flex flex-col gap-1">
+                    <p class="character-name">Morty Smith</p>
+                    <p class="character-status text-green-400">&#9679; Alive</p>
+                    <p class="character-species text-zinc-400">Human</p>
+                </div>
+            </div>
+
         </section>
 
     </main>
 
 </body>
 <script src="./js/script.js"></script>
+
 </html>
