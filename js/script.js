@@ -1,5 +1,7 @@
 let urlPrime = 'https://rickandmortyapi.com/api/character'
 let charactersList = [];
+let pagesInfo;
+let currentStatus = 'all'
 // Puxando dados da API
 async function getCharacters(url) {
 
@@ -12,6 +14,7 @@ async function getCharacters(url) {
 
         if (resp.status === 404) {
             renderCharacters([])
+            disablePagination()
             return
         } else if (!resp.ok) {
             throw new Error('Erro na rede: ' + resp.status)
@@ -19,7 +22,9 @@ async function getCharacters(url) {
 
         const dados = await resp.json()
         charactersList = dados.results
+        pagesInfo = dados.info
 
+        renderPagination(pagesInfo)
         renderCharacters(charactersList)
 
     } catch (error) {
@@ -29,11 +34,6 @@ async function getCharacters(url) {
 
 }
 const cardSection = document.querySelector('#cards-section')
-
-// Funcao para filtrar status
-function filterCharacters(characters, status) {
-    return characters.filter(item => item.status === status)
-}
 
 // Rendereziando no HTML
 function renderCharacters(characters) {
@@ -71,12 +71,7 @@ inputSearch.addEventListener('input', (event) => {
     clearTimeout(timerOut)
 
     timerOut = setTimeout(() => {
-        const urlSearch = `https://rickandmortyapi.com/api/character?name=${event.target.value}`
-        if (!event.target.value) {
-            getCharacters('https://rickandmortyapi.com/api/character')
-        } else {
-            getCharacters(urlSearch)
-        }
+        getCharacters(buildSearchUrl())
     }, 600);
 
 
@@ -90,6 +85,8 @@ filterButtons.addEventListener('click', (e) => {
     const clickedButtonId = e.target.id
     // selecionado = bg-green-300/20 border border-green-400
     // Normal = border border-zinc-800
+    currentStatus = clickedButtonId
+
 
     const buttons = filterButtons.querySelectorAll('button')
 
@@ -106,21 +103,84 @@ filterButtons.addEventListener('click', (e) => {
             item.classList.add('border-zinc-800')
         })
 
-        clickedButton.classList.toggle('bg-green-300/20')
-        clickedButton.classList.toggle('border-green-400')
-        clickedButton.classList.toggle('border-zinc-800')
-        renderCharacters(charactersList)
+        clickedButton.classList.add('bg-green-300/20')
+        clickedButton.classList.add('border-green-400')
+        clickedButton.classList.remove('border-zinc-800')
+        getCharacters(buildSearchUrl())
     } else {
-        clickedButton.classList.toggle('bg-green-300/20')
-        clickedButton.classList.toggle('border-green-400')
-        clickedButton.classList.toggle('border-zinc-800')
+        clickedButton.classList.add('bg-green-300/20')
+        clickedButton.classList.add('border-green-400')
+        clickedButton.classList.remove('border-zinc-800')
 
 
-        const filterResult = filterCharacters(charactersList, clickedButtonId)
-        renderCharacters(filterResult)
+        getCharacters(buildSearchUrl())
     }
 
 })
+
+// Paginação
+//const paginationContainer = document.querySelector('#pagination')
+const previousButton = document.querySelector('#previous')
+const nextButton = document.querySelector('#next')
+let nextUrl;
+let previousUrl;
+
+function disablePagination(){
+    previousButton.disabled = true;
+    nextButton.disabled = true;
+
+    previousUrl = ''
+    nextUrl = ''
+}
+
+function renderPagination(info) {
+
+    if (info.prev === null) {
+        previousButton.disabled = true;
+        previousUrl = ''
+    } else if (info.prev) {
+        previousButton.disabled = false;
+        previousUrl = info.prev
+    }
+
+    if (info.next === null) {
+        nextButton.disabled = true;
+        nextUrl = ''
+    } else if (info.next) {
+        nextButton.disabled = false;
+        nextUrl = info.next
+    }
+
+}
+
+nextButton.addEventListener('click', ()=>{
+    getCharacters(nextUrl)
+})
+
+previousButton.addEventListener('click', ()=>{
+    getCharacters(previousUrl)
+})
+
+// Criando URL
+function buildSearchUrl() {
+    const inputValue = inputSearch.value
+    const params = new URLSearchParams()
+
+    if (inputValue) {
+        params.set('name', inputValue) 
+    }
+
+    if (currentStatus !== 'all') {
+        params.set('status', currentStatus)
+    }
+     
+    if (params.toString()) {
+        return `${urlPrime}?${params}`
+    } else {
+        return urlPrime
+    }
+
+}
 
 
 
