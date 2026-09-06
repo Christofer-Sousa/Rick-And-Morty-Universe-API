@@ -1,27 +1,48 @@
-async function getCharacters(){
+let urlPrime = 'https://rickandmortyapi.com/api/character'
+let charactersList = [];
+// Puxando dados da API
+async function getCharacters(url) {
+
+    // Requisiçao
     try {
-        const resp = await fetch('https://rickandmortyapi.com/api/character')
-        if(!resp.ok) {
+        // Loading 
+        cardSection.innerHTML = 'Loading characters...'
+
+        const resp = await fetch(url)
+
+        if (resp.status === 404) {
+            renderCharacters([])
+            return
+        } else if (!resp.ok) {
             throw new Error('Erro na rede: ' + resp.status)
         }
 
         const dados = await resp.json()
-        const results = dados.results 
+        charactersList = dados.results
 
-        renderCharacters(results)
+        renderCharacters(charactersList)
+
     } catch (error) {
-        console.log(`Error: ${error}`)
+        console.log(`${error}`)
+        cardSection.innerHTML = `&#9888; Unable to load characters. Try again.`
     }
 
 }
+const cardSection = document.querySelector('#cards-section')
 
-getCharacters()
+// Funcao para filtrar status
+function filterCharacters(characters, status) {
+    return characters.filter(item => item.status === status)
+}
 
+// Rendereziando no HTML
 function renderCharacters(characters) {
-    const cardSection = document.querySelector('#cards-section')
 
-    const cards = characters.map(character => {
-        const card = `
+    if (characters.length === 0) {
+        cardSection.innerHTML = `&#9888; No characters found. Try another.`
+    } else {
+        const cards = characters.map(character => {
+            const card = `
             <div class="card flex flex-col justify-between border border-zinc-800 rounded-xl p-3 gap-3 shadow-2xl">
                 <div class="rounded-xl bg-zinc-900/40">
                     <img class="w-full rounded-lg" src="${character.image}" alt="">
@@ -33,9 +54,78 @@ function renderCharacters(characters) {
                 </div>
             </div>`
 
-        return card
-    })
+            return card
+        })
 
-    cardSection.innerHTML = cards.join('')
+        cardSection.innerHTML = cards.join('')
+    }
+
+
 
 }
+
+// Filtro de pesquisa
+const inputSearch = document.querySelector('#search-bar')
+let timerOut
+inputSearch.addEventListener('input', (event) => {
+    clearTimeout(timerOut)
+
+    timerOut = setTimeout(() => {
+        const urlSearch = `https://rickandmortyapi.com/api/character?name=${event.target.value}`
+        if (!event.target.value) {
+            getCharacters('https://rickandmortyapi.com/api/character')
+        } else {
+            getCharacters(urlSearch)
+        }
+    }, 600);
+
+
+})
+
+// Filtros
+const filterButtons = document.querySelector('#filter-buttons')
+
+filterButtons.addEventListener('click', (e) => {
+    const clickedButton = e.target
+    const clickedButtonId = e.target.id
+    // selecionado = bg-green-300/20 border border-green-400
+    // Normal = border border-zinc-800
+
+    const buttons = filterButtons.querySelectorAll('button')
+
+    buttons.forEach(item => {
+        item.classList.remove('border-green-400')
+        item.classList.remove('bg-green-300/20')
+        item.classList.add('border-zinc-800')
+    })
+
+    if (clickedButtonId === 'all') {
+        buttons.forEach(item => {
+            item.classList.remove('border-green-400')
+            item.classList.remove('bg-green-300/20')
+            item.classList.add('border-zinc-800')
+        })
+
+        clickedButton.classList.toggle('bg-green-300/20')
+        clickedButton.classList.toggle('border-green-400')
+        clickedButton.classList.toggle('border-zinc-800')
+        renderCharacters(charactersList)
+    } else {
+        clickedButton.classList.toggle('bg-green-300/20')
+        clickedButton.classList.toggle('border-green-400')
+        clickedButton.classList.toggle('border-zinc-800')
+
+
+        const filterResult = filterCharacters(charactersList, clickedButtonId)
+        renderCharacters(filterResult)
+    }
+
+})
+
+
+
+
+
+
+
+getCharacters(urlPrime)
