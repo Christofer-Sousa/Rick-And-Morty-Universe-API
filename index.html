@@ -9,10 +9,10 @@
     <title>Rick and Morty Universe</title>
 </head>
 
-<body class="bg-zinc-950 text-zinc-100 font-sans">
-    <main class="text-white w-full flex flex-col gap-3">
+<body class="bg-zinc-950 text-zinc-100 font-sans p-3">
+    <main class="text-white w-full lg:max-w-[1200px] lg:mx-auto flex flex-col gap-3">
         <!--MENU section-->
-        <header class="w-full flex items-center gap-5 h-min-5 bg-zinc-950 p-3 rounded-lg border border-zinc-800">
+        <header class="w-full flex items-center gap-5 h-min-5 bg-zinc-950 p-3 rounded-3xl [corner-shape: squircle] border border-zinc-800">
             <div>
                 <img class="w-16" src="./scr/portal-logo.png" alt="">
             </div>
@@ -22,42 +22,39 @@
                     <h1 class="font-bold text-xl">RICK AND MORTY</h1>
                     <p class="text-green-400 text-sm">EXPLORER</p>
                 </div>
-                <div class="text-4xl">
-                    &#9776;
-                </div>
+
             </div>
         </header>
 
         <!--HEADER section-->
-        <section class="w-full flex flex-col text-sm bg-zinc-950 p-3 rounded-lg gap-3 border border-zinc-800">
+        <section class="w-full flex flex-col text-sm bg-zinc-950 p-3 rounded-3xl [corner-shape: squircle] gap-3 border border-zinc-800">
             <div>
-                <p class="text-zinc-400">Explore the multiverse and discover characters.</p>
+                <p class="text-zinc-400 lg:text-center">Explore the multiverse and discover characters.</p>
             </div>
 
             <!--SEARCH section-->
-            <div class="flex gap-4 items-center border border-zinc-800 rounded-full px-3 py-2 bg-zinc-900">
+            <div class="w-full flex gap-4 items-center border border-zinc-800 rounded-full px-4 py-3 bg-zinc-900 max-w-[850px] mx-auto">
                 <span class="text-lg">&#128269;</span>
-                <input class="w-full outline-none bg-transparent" type="text" placeholder="Search character..." id="search-bar">
+                <input class="w-full outline-none bg-transparent focus:outline-none focus:ring-2 focus:ring-zinc-500" type="text" placeholder="Search character..." id="search-bar">
             </div>
 
             <!--FILTER section-->
             <div id="filter-buttons" class="flex gap-3 items-center self-center">
-                <button id="all" class="border border-zinc-800 px-4 py-1 rounded-xl">All</button>
-                <button id="Alive" class="border border-zinc-800 px-4 py-1 rounded-xl">Alive</button>
-                <button id="Dead" class="border border-zinc-800 px-4 py-1 rounded-xl">Dead</button>
-                <button id="unknown" class="border border-zinc-800 px-4 py-1 rounded-xl">Unknown</button>
+                <button id="all" class="cursor-pointer hover:bg-zinc-900 border border-zinc-800 px-4 py-1 rounded-xl">All</button>
+                <button id="Alive" class="cursor-pointer hover:bg-zinc-900 border border-zinc-800 px-4 py-1 rounded-xl">Alive</button>
+                <button id="Dead" class="cursor-pointer hover:bg-zinc-900 border border-zinc-800 px-4 py-1 rounded-xl">Dead</button>
+                <button id="unknown" class="cursor-pointer hover:bg-zinc-900 border border-zinc-800 px-4 py-1 rounded-xl">Unknown</button>
             </div>
         </section>
 
         <!--CARDS section-->
-        <section class="w-full grid grid-cols-2 text-sm bg-zinc-950 p-3 rounded-lg gap-3 border border-zinc-800"
+        <section class="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 text-sm bg-zinc-950 p-3 rounded-3xl [corner-shape: squircle] gap-4 border border-zinc-800"
             id="cards-section">
-
         </section>
 
-        <section id="pagination" class="w-full flex justify-around items-center text-sm bg-zinc-950 p-3 rounded-lg gap-3 border border-zinc-800 mb-4">
-            <button id="previous">&#8592; Previous</button>
-            <button id="next">Next &#8594;</button>
+        <section id="pagination" class="w-full flex justify-around items-center text-sm bg-zinc-950 p-3 rounded-2xl [corner-shape: squircle] gap-3 border border-zinc-800 mb-4">
+            <button class="cursor-pointer" id="previous">&#8592; Previous</button>
+            <button class="cursor-pointer" id="next">Next &#8594;</button>
         </section>
     </main>
 

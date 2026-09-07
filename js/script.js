@@ -43,13 +43,13 @@ function renderCharacters(characters) {
     } else {
         const cards = characters.map(character => {
             const card = `
-            <div class="card flex flex-col justify-between border border-zinc-800 rounded-xl p-3 gap-3 shadow-2xl">
+            <div class="card flex flex-col justify-between border border-zinc-800 rounded-3xl [corner-shape: squircle] p-4 gap-3 shadow-2xl ">
                 <div class="rounded-xl bg-zinc-900/40">
-                    <img class="w-full rounded-lg" src="${character.image}" alt="">
+                    <img loading="lazy"  class="w-full rounded-3xl [corner-shape: squircle]" src="${character.image}" alt="">
                 </div>
                 <div class="flex flex-col gap-1">
                     <p class="character-name">${character.name}</p>
-                    <p class="character-status text-green-400">&#9679; ${character.status}</p>
+                    <p class="character-status text-green-700/70">&#9679; ${character.status}</p>
                     <p class="character-species text-zinc-400">${character.species}</p>
                 </div>
             </div>`
@@ -125,7 +125,7 @@ const nextButton = document.querySelector('#next')
 let nextUrl;
 let previousUrl;
 
-function disablePagination(){
+function disablePagination() {
     previousButton.disabled = true;
     nextButton.disabled = true;
 
@@ -153,11 +153,11 @@ function renderPagination(info) {
 
 }
 
-nextButton.addEventListener('click', ()=>{
+nextButton.addEventListener('click', () => {
     getCharacters(nextUrl)
 })
 
-previousButton.addEventListener('click', ()=>{
+previousButton.addEventListener('click', () => {
     getCharacters(previousUrl)
 })
 
@@ -167,13 +167,13 @@ function buildSearchUrl() {
     const params = new URLSearchParams()
 
     if (inputValue) {
-        params.set('name', inputValue) 
+        params.set('name', inputValue)
     }
 
     if (currentStatus !== 'all') {
         params.set('status', currentStatus)
     }
-     
+
     if (params.toString()) {
         return `${urlPrime}?${params}`
     } else {
